@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="test-container">
+<div id="test-container" data-session-id="{{ session_id }}">
     <div class="test-info">
         <h2>Таблица <span id="current-table">1</span> из 5</h2>
         <p>Время: <span id="timer">0.0</span> сек</p>
@@ -10,14 +10,11 @@
     <div id="table-container"></div>
     
     <div id="next-table" style="display: none; text-align: center;">
-        <button onclick="startNextTable()" class="btn">Следующая таблица</button>
+        <button id="next-table-btn" class="btn">Следующая таблица</button>
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script src="/static/js/schulte-test.js"></script>
-<script>
-    initSchulteTest("{{ session_id }}");
-</script>
 {% endblock %}

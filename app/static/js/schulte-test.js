@@ -94,8 +94,22 @@ async function submitResults() {
     window.location.href = `/results/${data.result_id}`;
 }
 
-function initSchulteTest(session_id) {
-    sessionId = session_id;
-    generateTable();
-    startTimer();
-}
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const testContainer = document.getElementById('test-container');
+    if (testContainer) {
+        
+        const sessionIdAttr = testContainer.getAttribute('data-session-id')
+        if (sessionIdAttr) {
+            sessionId = sessionIdAttr
+        }
+
+        const nextBtn = document.getElementById('next-table-btn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', startNextTable);
+        }
+        
+        generateTable();
+        startTimer();
+    }
+});
