@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="results-container">
+    <h1>Результаты теста</h1>
+    
+    <div class="chart-container">
+        <h2>График времени выполнения</h2>
+        <img src="{{ graph_url }}" alt="График времени">
+    </div>
+    
+    <div class="metrics">
+        <h2>Показатели</h2>
+        <div class="metric">
+            <span class="label">Среднее время (ЭР):</span>
+            <span class="value">{{ "%.2f"|format(result.average_time) }} сек</span>
+        </div>
+        <div class="metric">
+            <span class="label">Степень врабатываемости:</span>
+            <span class="value">{{ "%.2f"|format(result.workability_index) }}</span>
+        </div>
+        <div class="metric">
+            <span class="label">Психическая устойчивость:</span>
+            <span class="value">{{ "%.2f"|format(result.mental_stability_index) }}</span>
+        </div>
+    </div>
+    
+    <div class="detailed-times">
+        <h2>Время по таблицам</h2>
+        <ul>
+            {% for time in result.times %}
+            <li>Таблица {{ loop.index }}: {{ "%.2f"|format(time) }} сек</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <a href="/" class="btn">Пройти тест ещё раз</a>
+</div>
+{% endblock %}

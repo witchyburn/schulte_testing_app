@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - schulte-data:/var/lib/postgresql/data
+      - ./postgres/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+    networks:
+      - st_net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "80:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - st_net
+
+  web:
+    build: .
+    volumes:
+      - ./app:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - st_net
+
+networks:
+  st_net:
+    driver: bridge
+volumes:
+  schulte-data:
