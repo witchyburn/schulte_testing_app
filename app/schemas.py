@@ -2,11 +2,11 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 class TestResultCreate(BaseModel):
-    session_id: str
     times: list[float]
 
 class TestResultResponse(TestResultCreate):
     id: int
+    session_id: str
     average_time: float
     workability_index: float
     mental_stability_index: float

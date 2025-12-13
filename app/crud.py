@@ -9,7 +9,6 @@ def create_test_result(db: Session, test_result: TestResultCreate):
     mental_stability_index = test_result.times[3] / avg_time if avg_time > 0 else 0
 
     db_result = TestResult(
-        session_id=test_result.session_id,
         times=test_result.times,
         average_time=avg_time,
         workability_index=workability_index,

@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, Uuid, Float, DateTime
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 from sqlalchemy.orm import DeclarativeBase
+import uuid
 
 class Base(DeclarativeBase):
     pass
@@ -10,7 +11,13 @@ class TestResult(Base):
     __tablename__ = "test_results"
     
     id = Column(Integer, primary_key=True, index=True)
-    session_id = Column(Uuid, index=True)
+    session_id = Column(
+        Uuid, 
+        nullable=False,
+        unique=True,
+        default=lambda: uuid.uuid4(),
+        index=True
+    )
     times = Column(JSONB)
     average_time = Column(Float)
     workability_index = Column(Float)

@@ -1,4 +1,3 @@
-let sessionId = null;
 let currentTable = 1;
 let tablesCount = 5;
 let times = [];
@@ -84,10 +83,7 @@ async function submitResults() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            session_id: sessionId,
-            times: times
-        })
+        body: JSON.stringify({times: times})
     });
     
     const data = await response.json();
@@ -99,11 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const testContainer = document.getElementById('test-container');
     if (testContainer) {
         
-        const sessionIdAttr = testContainer.getAttribute('data-session-id')
-        if (sessionIdAttr) {
-            sessionId = sessionIdAttr
-        }
-
         const nextBtn = document.getElementById('next-table-btn');
         if (nextBtn) {
             nextBtn.addEventListener('click', startNextTable);
