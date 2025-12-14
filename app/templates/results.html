@@ -2,11 +2,16 @@
 
 {% block content %}
 <div class="results-container">
+    <script src="/static/js/plotly-min.js"></script>
     <h1>Результаты теста</h1>
     
     <div class="chart-container">
         <h2>График времени выполнения</h2>
-        <img src="{{ graph_url }}" alt="График времени">
+        <div id="plotly-chart"></div>
+        <script>
+            var graph = {{ graph_json|safe }};
+            Plotly.newPlot('plotly-chart', graph.data, graph.layout);
+        </script>
     </div>
     
     <div class="metrics">

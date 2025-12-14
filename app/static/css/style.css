@@ -115,11 +115,12 @@ p {
     margin: 40px 0;
 }
 
-.chart-container img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+#plotly-chart {
+    display: inline-block;
+    width: auto;              
+    max-width: 100%;  
+    height: auto;     
+    min-height: 400px;
 }
 
 .metrics {
@@ -187,5 +188,14 @@ p {
     
     .schulte-cell {
         font-size: 18px;
+    }
+
+    .chart-container {
+        margin: 20px 0;
+    }
+    
+    #plotly-chart {
+        min-height: 350px;
+        width: 95%;
     }
 }
