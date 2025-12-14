@@ -123,6 +123,17 @@ p {
     min-height: 400px;
 }
 
+#plotly-chart .error {
+    padding: 30px;
+    background: #ffebee;
+    border: 1px solid #ffcdd2;
+    border-radius: 4px;
+    color: #d32f2f;
+    text-align: center;
+    font-size: 16px;
+    margin: 20px 0;
+}
+
 .metrics {
     background: #f8f9fa;
     padding: 30px;

@@ -2,16 +2,11 @@
 
 {% block content %}
 <div class="results-container">
-    <script src="/static/js/plotly-min.js"></script>
     <h1>Результаты теста</h1>
     
     <div class="chart-container">
         <h2>График времени выполнения</h2>
-        <div id="plotly-chart"></div>
-        <script>
-            var graph = {{ graph_json|safe }};
-            Plotly.newPlot('plotly-chart', graph.data, graph.layout);
-        </script>
+        <div id="plotly-chart" data-graph='{{ graph_json|safe }}'></div>
     </div>
     
     <div class="metrics">
@@ -41,4 +36,26 @@
     
     <a href="/" class="btn">Пройти тест ещё раз</a>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/plotly-min.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('plotly-chart');
+    if (!container) return;
+    
+    try {
+        const graph = JSON.parse(container.dataset.graph);
+        Plotly.newPlot(container, graph.data, graph.layout, {
+            responsive: true,
+            displayModeBar: true,
+            displaylogo: false
+        });
+    } catch (error) {
+        console.error('Chart error:', error);
+        container.innerHTML = '<p class="error">Ошибка загрузки графика</p>';
+    }
+});
+</script>
 {% endblock %}
