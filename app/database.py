@@ -10,8 +10,6 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
-# Base = declarative_base()
-
 def get_db():
     db = SessionLocal()
     try:
