@@ -115,7 +115,7 @@ p {
     margin: 40px 0;
 }
 
-#plotly-chart {
+.chart {
     display: inline-block;
     width: auto;              
     max-width: 100%;  

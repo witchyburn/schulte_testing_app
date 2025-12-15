@@ -6,7 +6,12 @@
     
     <div class="chart-container">
         <h2>График времени выполнения</h2>
-        <div id="plotly-chart" data-graph='{{ graph_json|safe }}'></div>
+        <div
+            class="chart"
+            id="test-attempts-chart" 
+            data-graph='{{ graph_json|safe }}'
+            data-plotly-chart>
+        </div>
     </div>
     
     <div class="metrics">

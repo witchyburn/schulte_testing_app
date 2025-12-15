@@ -1,22 +1,55 @@
-function initializePlotlyCharts() {
-    const container = document.getElementById('plotly-chart');
-    if (!container) return;
-    
-    try {
-        const graph = JSON.parse(container.dataset.graph);
-        Plotly.newPlot(container, graph.data, graph.layout, {
-            responsive: true,
-            displayModeBar: false,
-            displaylogo: false
+class PlotlyChartLoader {
+    constructor() {
+    }
+
+    findChartContainers() {
+        return document.querySelectorAll('[data-plotly-chart]');
+    }
+
+    initializeChart(container) {
+        try {
+            const graph = JSON.parse(container.dataset.graph);
+            Plotly.newPlot(container, graph.data, graph.layout, {
+                responsive: true,
+                displayModeBar: false,
+                displaylogo: false
+            });
+            
+            window.addEventListener('resize', () => {
+                Plotly.Plots.resize(container);
+            });
+            
+            return true;
+        } catch (error) {
+            console.error('Plotly chart error:', error, container);
+            container.innerHTML = `
+                <div class="chart-error">
+                    <p>Ошибка загрузки графика</p>
+                    <small>${error.message}</small>
+                </div>
+            `;
+            return false;
+        }
+    }
+
+    initializeAllCharts() {
+        const containers = this.findChartContainers();
+        containers.forEach(container => {
+            this.initializeChart(container);
         });
-    } catch (error) {
-        console.error('Chart error:', error);
-        container.innerHTML = '<p class="error">Ошибка загрузки графика</p>';
     }
 }
 
+const plotlyChartLoader = new PlotlyChartLoader();
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializePlotlyCharts);
+    document.addEventListener('DOMContentLoaded', () => {
+        plotlyChartLoader.initializeAllCharts();
+    });
 } else {
-    initializePlotlyCharts();
+    plotlyChartLoader.initializeAllCharts();
+}
+
+if (typeof window !== 'undefined') {
+    window.PlotlyChartLoader = PlotlyChartLoader;
 }
